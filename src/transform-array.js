@@ -13,9 +13,45 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function transform(arr) {
+  if(!Array.isArray(arr)) {
+    throw new Error('\'arr\' parameter must be an instance of the Array!');
+  }
+
+  const controlObj = {
+    discardNext: '--discard-next',
+    discardPrev: '--discard-prev',
+    doubleNext: '--double-next',
+    doublePrev: '--double-prev'
+  }
+
+  let newArr = []
+
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i])
+    if(arr[i] === controlObj.discardNext) {
+      i = i + 1;
+    }
+    else if(arr[i] === controlObj.discardPrev) {
+      newArr.splice(i - 1, 1);
+    }
+    else if(arr[i] === controlObj.doubleNext) {
+      if (i === arr.length - 1) {
+        continue
+      }
+      newArr[i] = arr[i + 1] 
+    }
+    else if(arr[i] === controlObj.doublePrev) {
+      if (i === 0) {
+        continue;
+      }
+      newArr[i] = newArr[i - 1]
+    } else {
+      newArr.push(arr[i]);
+    }
+  }
+  let filtered = newArr.filter(Boolean)
+  return filtered
 }
 
 module.exports = {

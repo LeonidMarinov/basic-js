@@ -19,7 +19,7 @@ function repeater(str, options) {
   let separator = options.separator === undefined ? '+' : options.separator;
   let additionSeparator = options.additionSeparator === undefined ? '|' : options.additionSeparator;
 
-  function create (str, separator, times, counter = 1) {
+  function create (str, separator, times = 1, counter = 1) {
     let separatorToAdd = counter === times ? '' : separator
     let newStr = str + separatorToAdd;
     if (times === counter) {
@@ -28,7 +28,8 @@ function repeater(str, options) {
     counter++
     return newStr + create(str, separator, times, counter)
   }
-  let additonsStr = create(options.addition, additionSeparator, options.additionRepeatTimes)
+  let additonsStr = create(options.addition, additionSeparator, options.additionRepeatTimes);
+  additonsStr = additonsStr === 'undefined' ? '' : additonsStr;
   let wholeString = create(str + additonsStr, separator, options.repeatTimes);
   return wholeString;
 }
